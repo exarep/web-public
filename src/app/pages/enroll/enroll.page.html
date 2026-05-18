@@ -1,0 +1,126 @@
+<div class="container py-4 py-md-5 col-lg-10">
+  <header class="mb-4">
+    <h1 class="h2">Request service</h1>
+    <p class="text-secondary mb-0">
+      Theater! Give us your details and we’ll pretend someone in a headset cares. Nothing provisions, nothing switches — this
+      whole company is a polite fabrication for demos.
+    </p>
+  </header>
+
+  @if (submission(); as s) {
+    <div class="alert alert-success">
+      <h2 class="alert-heading h5">“Success” (air quotes included)</h2>
+      <p class="mb-2">Reference ID: <strong>{{ s.referenceId }}</strong> — minted by JavaScript, backed by vibes.</p>
+      <p class="small mb-0">
+        Still no API, no queue, no angry billing system. Open the console if you crave JSON and quiet disappointment.
+      </p>
+      <a routerLink="/plans" class="btn btn-outline-success btn-sm mt-3">Back to make-believe rates</a>
+    </div>
+  } @else {
+    <div class="card border rounded-3 bg-white mb-4">
+      <div class="card-body p-4">
+        <h2 class="h6 text-uppercase text-secondary mb-3">Selected pretend offer</h2>
+        <dl class="row mb-0 small">
+          <dt class="col-sm-4">Plan</dt>
+          <dd class="col-sm-8">{{ planLabel(form.controls.planCode.value) }}</dd>
+          <dt class="col-sm-4">Term</dt>
+          <dd class="col-sm-8">{{ form.controls.termMonths.value }} months</dd>
+          <dt class="col-sm-4">ZIP</dt>
+          <dd class="col-sm-8">{{ form.controls.zip.value || '—' }}</dd>
+        </dl>
+      </div>
+    </div>
+
+    <form class="card border rounded-3 bg-white" novalidate (ngSubmit)="submit()">
+      <div class="card-body p-4">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label" for="firstName">First name</label>
+            <input id="firstName" class="form-control" formControlName="firstName" autocomplete="given-name" />
+            @if (form.controls.firstName.invalid && form.controls.firstName.touched) {
+              <div class="invalid-feedback d-block">First name is required.</div>
+            }
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="lastName">Last name</label>
+            <input id="lastName" class="form-control" formControlName="lastName" autocomplete="family-name" />
+            @if (form.controls.lastName.invalid && form.controls.lastName.touched) {
+              <div class="invalid-feedback d-block">Last name is required.</div>
+            }
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="email">Email</label>
+            <input id="email" type="email" class="form-control" formControlName="email" autocomplete="email" />
+            @if (form.controls.email.invalid && form.controls.email.touched) {
+              <div class="invalid-feedback d-block">Valid email required.</div>
+            }
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="phone">Phone</label>
+            <input id="phone" type="tel" class="form-control" formControlName="phone" autocomplete="tel" />
+            @if (form.controls.phone.invalid && form.controls.phone.touched) {
+              <div class="invalid-feedback d-block">Enter a phone number we can reach you at.</div>
+            }
+          </div>
+          <div class="col-12">
+            <label class="form-label" for="serviceAddress">Service street address</label>
+            <input id="serviceAddress" class="form-control" formControlName="serviceAddress" autocomplete="street-address" />
+            @if (form.controls.serviceAddress.invalid && form.controls.serviceAddress.touched) {
+              <div class="invalid-feedback d-block">Service address is required.</div>
+            }
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="serviceCity">City</label>
+            <input id="serviceCity" class="form-control" formControlName="serviceCity" autocomplete="address-level2" />
+            @if (form.controls.serviceCity.invalid && form.controls.serviceCity.touched) {
+              <div class="invalid-feedback d-block">City is required.</div>
+            }
+          </div>
+          <div class="col-md-3">
+            <label class="form-label" for="serviceState">State</label>
+            <input id="serviceState" class="form-control text-uppercase" maxlength="2" formControlName="serviceState" />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label" for="zip">ZIP</label>
+            <input id="zip" class="form-control" maxlength="5" formControlName="zip" autocomplete="postal-code" />
+            @if (form.controls.zip.invalid && form.controls.zip.touched) {
+              <div class="invalid-feedback d-block">Enter a five-digit ZIP.</div>
+            }
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="esiId">ESIID <span class="text-secondary">(optional)</span></label>
+            <input id="esiId" class="form-control" formControlName="esiId" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="notes">Notes <span class="text-secondary">(optional)</span></label>
+            <textarea id="notes" rows="2" class="form-control" formControlName="notes"></textarea>
+          </div>
+        </div>
+
+        <input type="hidden" formControlName="termMonths" />
+        <input type="hidden" formControlName="planCode" />
+
+        <div class="form-check mt-4">
+          <input class="form-check-input" type="checkbox" id="consent" formControlName="consent" />
+          <label class="form-check-label" for="consent">
+            I know Exarep is imaginary, this workflow is a stub, and any “final pricing” talk is hypothetical — but I’ll play
+            along and pretend to read an EFL anyway.
+          </label>
+        </div>
+        @if (form.controls.consent.invalid && form.controls.consent.touched) {
+          <div class="invalid-feedback d-block">Check the box — consent with your eyes open.</div>
+        }
+
+        <div class="d-flex gap-3 mt-4 flex-column flex-sm-row">
+          <button class="btn btn-primary" type="submit" [disabled]="submitting()">
+            @if (submitting()) {
+              <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+            }
+            Submit into the void
+          </button>
+          <a routerLink="/plans" class="btn btn-outline-secondary">Edit plan selection</a>
+        </div>
+      </div>
+    </form>
+  }
+</div>

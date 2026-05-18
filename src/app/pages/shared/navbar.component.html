@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom app-navbar">
+  <div class="container">
+    <a class="navbar-brand fw-semibold d-flex align-items-center gap-2 mb-0 text-dark" routerLink="/" aria-label="Exarep home">
+      <span class="brand-mark" aria-hidden="true">⚡</span>
+      <span class="brand-text">Exarep</span>
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      aria-controls="navbarNav"
+      [attr.aria-expanded]="menuOpen()"
+      aria-label="Toggle navigation"
+      (click)="toggleMenu()"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div
+      class="collapse navbar-collapse align-items-lg-center"
+      [class.show]="menuOpen()"
+      id="navbarNav"
+    >
+      <ul class="navbar-nav ms-lg-4 me-auto mb-0">
+        <li class="nav-item">
+          <a class="nav-link px-lg-3 py-2 text-secondary" routerLink="/plans" routerLinkActive="active">Rates &amp; plans</a>
+        </li>
+      </ul>
+      <div class="nav-actions ms-lg-auto mt-2 mt-lg-0">
+        <a class="btn btn-outline-primary w-100 w-lg-auto" href="#">Customer Login</a>
+      </div>
+    </div>
+  </div>
+</nav>

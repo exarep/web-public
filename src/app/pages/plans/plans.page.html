@@ -1,0 +1,100 @@
+<div class="container py-4 py-md-5">
+  <header class="mb-4">
+    <h1 class="h2">Rates &amp; plans</h1>
+    <p class="text-secondary col-lg-9 mb-0">
+      Type a Texas ZIP. We’ll guess a TDU, wave around some <strong>Fixed</strong> plan SKUs, and show you numbers that are
+      internally consistent and externally meaningless — the Exarep special. Real enrollments require a real REP; we are
+      cosplaying.
+    </p>
+  </header>
+
+  <div class="card border rounded-3 bg-white mb-4">
+    <div class="card-body p-4">
+      <label class="form-label fw-semibold" for="zipInput">Service ZIP code</label>
+      <div class="row g-2 align-items-end">
+        <div class="col-sm-4 col-md-3">
+          <input
+            id="zipInput"
+            type="text"
+            maxlength="5"
+            inputmode="numeric"
+            class="form-control form-control-lg"
+            placeholder="e.g. 75201"
+            [value]="zipInput()"
+            (input)="updateZip($any($event.target).value)"
+          />
+        </div>
+        <div class="col-sm-8 col-md-9 text-secondary small">
+          Toy dataset zips:
+          <button type="button" class="btn btn-link btn-sm p-0 align-baseline" (click)="updateZip('75201')">75201</button>,
+          <button type="button" class="btn btn-link btn-sm p-0 align-baseline" (click)="updateZip('77002')">77002</button>, or
+          <button type="button" class="btn btn-link btn-sm p-0 align-baseline" (click)="updateZip('78701')">78701</button>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @let q = quoteState();
+  @if (q.kind === 'empty') {
+    <p class="text-secondary">Five digits unlock our pretend spreadsheet. Fewer digits unlock our indifference.</p>
+  }
+
+  @if (q.kind === 'unknown') {
+    <div class="alert alert-warning">
+      ZIP <strong>{{ q.zip }}</strong> isn’t in our curated fiction set. We’re not pretending to be exhaustive — try a sample ZIP
+      or imagine harder.
+    </div>
+  }
+
+  @if (q.kind === 'ok') {
+    <div class="alert alert-info">
+      <div class="fw-semibold mb-1">TDU for {{ q.lookup.zip }}: {{ q.lookup.tdsp.shortName }}</div>
+      <div class="small mb-0">
+        Made-up volumetric pass-through: <strong>{{ q.lookup.tdsp.deliveryCentsPerKwh | number: '1.2-3' }}¢/kWh</strong>
+        · Made-up base charge:
+        <strong>${{ q.lookup.tdsp.monthlyBaseUsd | number: '1.2-2' }}/mo</strong>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      @for (plan of q.quotes; track plan.code) {
+        <div class="col-md-4">
+          <div class="card h-100 border rounded-3 bg-white">
+            <div class="card-body d-flex flex-column p-4">
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                  <h2 class="h5 mb-1">{{ plan.displayName }}</h2>
+                  <p class="text-secondary small mb-0">{{ plan.termMonths }}-month fixed term</p>
+                </div>
+                <span class="badge text-bg-light border">{{ plan.energyCentsPerKwh | number: '1.2-2' }}¢ energy</span>
+              </div>
+              <div class="mb-3">
+                <p class="display-6 fw-bold text-primary mb-0">
+                  {{ plan.estimatedAllInCentsPerKwh | number: '1.2-2' }}¢
+                </p>
+                <p class="small text-secondary mb-0">Fictional combined ¢/kWh (fake energy + fake TDU volumetric)</p>
+              </div>
+              <ul class="small text-secondary flex-grow-1">
+                <li>Fabricated supply: {{ plan.energyCentsPerKwh | number: '1.2-2' }}¢</li>
+                <li>Fabricated TDU volumetric: {{ q.lookup.tdsp.deliveryCentsPerKwh | number: '1.2-3' }}¢</li>
+                <li>Fabricated TDU base: ${{ q.lookup.tdsp.monthlyBaseUsd | number: '1.2-2' }}/month</li>
+              </ul>
+              <button
+                type="button"
+                class="btn btn-primary w-100"
+                (click)="choosePlan(q.lookup.zip, plan.code, plan.termMonths)"
+              >
+                Start fake service request
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <p class="small text-secondary mt-4 mb-0">
+    Seriously: not an offer, not advice, not ERCOT-compliant fanfiction. Go outside and touch grass — ideally near real
+    infrastructure.
+  </p>
+</div>

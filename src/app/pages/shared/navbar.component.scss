@@ -1,0 +1,57 @@
+.navbar-brand {
+  letter-spacing: 0.02em;
+}
+
+.brand-mark {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.brand-text {
+  line-height: 1;
+}
+
+.app-navbar {
+  border-color: #e0e0e0 !important;
+
+  .navbar-toggler {
+    align-self: center;
+  }
+
+  .navbar-collapse {
+    &.align-items-lg-center {
+      @media (min-width: 992px) {
+        flex-grow: 1;
+      }
+    }
+
+    &.show {
+      @media (max-width: 991.98px) {
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid #e0e0e0;
+      }
+    }
+  }
+
+  .navbar-nav .nav-link {
+    border-radius: 0.25rem;
+  }
+
+  .navbar-nav .nav-link:hover {
+    color: #1f1f1f !important;
+  }
+
+  .navbar-nav .nav-link.active {
+    color: #ee0000 !important;
+    font-weight: 600;
+    background: transparent;
+  }
+
+  @media (min-width: 992px) {
+    .nav-actions .btn {
+      padding-top: 0.375rem;
+      padding-bottom: 0.375rem;
+    }
+  }
+}
