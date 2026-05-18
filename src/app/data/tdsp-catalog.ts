@@ -1,7 +1,7 @@
 import type { TdspId, TdspTerritory } from './tdsp.types';
 
 /**
- * Illustrative TDSP pass-through components used to show how the retail energy rate and TDU charges combine.
+ * Illustrative TDSP pass-through components used to show how retail supply pricing and TDU charges combine.
  * Replace with tariff feeds or a pricing API before production use.
  */
 export const TDSP_BY_ID: Record<TdspId, TdspTerritory> = {

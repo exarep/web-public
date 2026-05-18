@@ -7,8 +7,8 @@ import { ZIP_TO_TDSP } from '../data/zip-to-tdsp';
 @Injectable({
   providedIn: 'root',
 })
-export class RatesService {
-  private readonly plans = REP_ENERGY_PLANS;
+export class PlansService {
+  private readonly catalogPlans = REP_ENERGY_PLANS;
 
   normalizeZip(raw: string): string {
     return raw.replace(/\D/g, '').slice(0, 5);
@@ -31,7 +31,7 @@ export class RatesService {
     if (!lookup) {
       return undefined;
     }
-    const quotes: QuotedPlan[] = this.plans.map((p) => ({
+    const quotes: QuotedPlan[] = this.catalogPlans.map((p) => ({
       ...p,
       estimatedAllInCentsPerKwh: this.sumCentsPerKwh(p.energyCentsPerKwh, lookup.tdsp),
     }));
@@ -43,7 +43,7 @@ export class RatesService {
   }
 
   /**
-   * Simplified “all-in” comparison rate: REP energy + TDU per-kWh component.
+   * Simplified “all-in” comparison (¢/kWh): REP energy + TDU per-kWh component.
    * Monthly base charges depend on usage; we surface them separately on the UI.
    */
   private sumCentsPerKwh(energyCentsPerKwh: number, tdsp: TdspTerritory): number {

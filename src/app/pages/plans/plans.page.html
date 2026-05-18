@@ -1,90 +1,96 @@
-<div class="container py-4 py-md-5">
-  <header class="mb-4">
-    <h1 class="h2">Rates &amp; plans</h1>
-    <p class="text-secondary col-lg-9 mb-0">
-      Type a Texas ZIP. We’ll guess a TDU, wave around some <strong>Fixed</strong> plan SKUs, and show you numbers that are
-      internally consistent and externally meaningless — the Exarep special. Real enrollments require a real REP; we are
-      cosplaying.
+<div class="container py-4 py-md-5 plans-shell px-3">
+  <header class="mb-4 pb-1">
+    <h1 class="plans-header-title mb-2">Plans</h1>
+    <p class="text-secondary col-lg-9 mb-0 lh-lg">
+      Enter your Texas ZIP code to see sample <strong>fixed-rate</strong> plans for <strong>residential</strong> and
+      <strong>small business</strong> service in ERCOT. Pricing reflects illustrative supply and TDU pass-through components for
+      this demonstration.
     </p>
   </header>
 
-  <div class="card border rounded-3 bg-white mb-4">
-    <div class="card-body p-4">
-      <label class="form-label fw-semibold" for="zipInput">Service ZIP code</label>
-      <div class="row g-2 align-items-end">
-        <div class="col-sm-4 col-md-3">
-          <input
-            id="zipInput"
-            type="text"
-            maxlength="5"
-            inputmode="numeric"
-            class="form-control form-control-lg"
-            placeholder="e.g. 75201"
-            [value]="zipInput()"
-            (input)="updateZip($any($event.target).value)"
-          />
-        </div>
-        <div class="col-sm-8 col-md-9 text-secondary small">
-          Toy dataset zips:
-          <button type="button" class="btn btn-link btn-sm p-0 align-baseline" (click)="updateZip('75201')">75201</button>,
-          <button type="button" class="btn btn-link btn-sm p-0 align-baseline" (click)="updateZip('77002')">77002</button>, or
-          <button type="button" class="btn btn-link btn-sm p-0 align-baseline" (click)="updateZip('78701')">78701</button>.
-        </div>
+  <div class="plans-zip-panel">
+    <label class="form-label small fw-semibold text-secondary text-uppercase mb-2 plans-zip-label" for="zipInput">ZIP code</label>
+    <div class="row g-3 align-items-center">
+      <div class="col-sm-5 col-md-4 col-lg-3">
+        <input
+          id="zipInput"
+          type="text"
+          maxlength="5"
+          inputmode="numeric"
+          class="form-control form-control-lg plans-zip-input"
+          placeholder="75201"
+          [value]="zipInput()"
+          (input)="updateZip($any($event.target).value)"
+        />
+      </div>
+      <div class="col-sm-7 col-md-8 col-lg-9 text-secondary small plans-quick-links">
+        Examples:
+        <button type="button" class="btn btn-link btn-sm py-0 px-1" (click)="updateZip('75201')">75201</button>
+        <span class="text-muted">·</span>
+        <button type="button" class="btn btn-link btn-sm py-0 px-1" (click)="updateZip('77002')">77002</button>
+        <span class="text-muted">·</span>
+        <button type="button" class="btn btn-link btn-sm py-0 px-1" (click)="updateZip('78701')">78701</button>
       </div>
     </div>
   </div>
 
   @let q = quoteState();
   @if (q.kind === 'empty') {
-    <p class="text-secondary">Five digits unlock our pretend spreadsheet. Fewer digits unlock our indifference.</p>
+    <p class="text-secondary small mb-0">Enter a 5-digit ZIP code to view sample plans.</p>
   }
 
   @if (q.kind === 'unknown') {
-    <div class="alert alert-warning">
-      ZIP <strong>{{ q.zip }}</strong> isn’t in our curated fiction set. We’re not pretending to be exhaustive — try a sample ZIP
-      or imagine harder.
+    <div class="state-muted-warn small mb-4">
+      We don’t have sample plans for ZIP <strong>{{ q.zip }}</strong>. Try one of the example ZIP codes above.
     </div>
   }
 
   @if (q.kind === 'ok') {
-    <div class="alert alert-info">
-      <div class="fw-semibold mb-1">TDU for {{ q.lookup.zip }}: {{ q.lookup.tdsp.shortName }}</div>
-      <div class="small mb-0">
-        Made-up volumetric pass-through: <strong>{{ q.lookup.tdsp.deliveryCentsPerKwh | number: '1.2-3' }}¢/kWh</strong>
-        · Made-up base charge:
-        <strong>${{ q.lookup.tdsp.monthlyBaseUsd | number: '1.2-2' }}/mo</strong>
+    <div class="tdu-banner small">
+      <span class="fw-semibold text-dark">{{ q.lookup.tdsp.shortName }}</span>
+      <span class="text-secondary ms-1">· {{ q.lookup.zip }}</span>
+      <div class="text-secondary mt-2 mb-0">
+        Sample TDU charges used in estimates: <strong class="text-dark">{{ q.lookup.tdsp.deliveryCentsPerKwh | number: '1.2-3' }}¢/kWh</strong>
+        delivery · <strong class="text-dark">${{ q.lookup.tdsp.monthlyBaseUsd | number: '1.2-2' }}</strong>/mo base
       </div>
     </div>
+
+    <p class="small text-secondary col-lg-10 mb-4 mb-md-3">
+      Estimated all-in ¢/kWh combines the plan’s supply component and sample TDU volumetric charge. It does not replace your EFL or
+      Your Rights as a Customer disclosure; actual bills vary with usage and billed TDU amounts.
+    </p>
 
     <div class="row g-4">
       @for (plan of q.quotes; track plan.code) {
         <div class="col-md-4">
-          <div class="card h-100 border rounded-3 bg-white">
+          <div class="card h-100 plan-pricing-card bg-white">
             <div class="card-body d-flex flex-column p-4">
               <div class="d-flex justify-content-between align-items-start mb-3">
                 <div>
-                  <h2 class="h5 mb-1">{{ plan.displayName }}</h2>
-                  <p class="text-secondary small mb-0">{{ plan.termMonths }}-month fixed term</p>
+                  <h2 class="h5 mb-1 fw-semibold">{{ plan.displayName }}</h2>
+                  <p class="text-secondary small mb-0">{{ plan.termMonths }} months</p>
                 </div>
-                <span class="badge text-bg-light border">{{ plan.energyCentsPerKwh | number: '1.2-2' }}¢ energy</span>
+                <span class="badge rounded-pill bg-light text-dark border fw-normal">
+                  {{ plan.energyCentsPerKwh | number: '1.2-2' }}¢ energy
+                </span>
               </div>
               <div class="mb-3">
-                <p class="display-6 fw-bold text-primary mb-0">
+                <p class="plan-rate text-primary mb-1">
                   {{ plan.estimatedAllInCentsPerKwh | number: '1.2-2' }}¢
                 </p>
-                <p class="small text-secondary mb-0">Fictional combined ¢/kWh (fake energy + fake TDU volumetric)</p>
+                <p class="small text-secondary mb-0">Estimated all-in ¢/kWh</p>
               </div>
-              <ul class="small text-secondary flex-grow-1">
-                <li>Fabricated supply: {{ plan.energyCentsPerKwh | number: '1.2-2' }}¢</li>
-                <li>Fabricated TDU volumetric: {{ q.lookup.tdsp.deliveryCentsPerKwh | number: '1.2-3' }}¢</li>
-                <li>Fabricated TDU base: ${{ q.lookup.tdsp.monthlyBaseUsd | number: '1.2-2' }}/month</li>
+              <ul class="small text-secondary flex-grow-1 list-unstyled mb-4 mb-md-3">
+                <li class="mb-1">Supply {{ plan.energyCentsPerKwh | number: '1.2-2' }}¢</li>
+                <li class="mb-1">TDU vol. {{ q.lookup.tdsp.deliveryCentsPerKwh | number: '1.2-3' }}¢</li>
+                <li>TDU base ${{ q.lookup.tdsp.monthlyBaseUsd | number: '1.2-2' }}/mo</li>
               </ul>
               <button
                 type="button"
-                class="btn btn-primary w-100"
+                class="btn btn-primary plan-cta w-100 mt-auto"
                 (click)="choosePlan(q.lookup.zip, plan.code, plan.termMonths)"
               >
-                Start fake service request
+                Continue to enroll
               </button>
             </div>
           </div>
@@ -93,8 +99,7 @@
     </div>
   }
 
-  <p class="small text-secondary mt-4 mb-0">
-    Seriously: not an offer, not advice, not ERCOT-compliant fanfiction. Go outside and touch grass — ideally near real
-    infrastructure.
+  <p class="small text-secondary mt-4 pt-3 mb-0 border-top">
+    Demonstration only. Not an offer of service. Confirm pricing and terms on official documents before enrolling.
   </p>
 </div>

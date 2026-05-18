@@ -1,0 +1,86 @@
+.plans-zip-label {
+  letter-spacing: 0.05em;
+}
+
+.plans-shell {
+  max-width: 72rem;
+  margin-inline: auto;
+}
+
+.plans-header-title {
+  font-size: clamp(1.5rem, 3vw, 1.85rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.plans-zip-panel {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 0.85rem;
+  padding: 1.35rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.04),
+    0 12px 40px rgba(0, 0, 0, 0.04);
+}
+
+.plans-zip-input {
+  border-radius: 0.6rem;
+  border-color: rgba(0, 0, 0, 0.1);
+  font-size: 1.125rem;
+
+  &:focus {
+    border-color: rgba(238, 0, 0, 0.55);
+    box-shadow: 0 0 0 3px rgba(238, 0, 0, 0.1);
+  }
+}
+
+.plans-quick-links .btn-link {
+  font-weight: 500;
+}
+
+.tdu-banner {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.75);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  border-left: 3px solid #0066cc;
+}
+
+.plan-pricing-card {
+  border: 1px solid rgba(0, 0, 0, 0.07) !important;
+  border-radius: 0.85rem !important;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    border-color: rgba(238, 0, 0, 0.2) !important;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+  }
+}
+
+.plan-rate {
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.plan-cta {
+  border-radius: 999px;
+  font-weight: 500;
+  padding-top: 0.55rem;
+  padding-bottom: 0.55rem;
+}
+
+.state-muted-warn {
+  border-radius: 0.65rem;
+  border: 1px solid #f0e0a6;
+  background: #fffdf5;
+  padding: 1rem 1.15rem;
+}

@@ -1,7 +1,7 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { RatesService } from '../../services/rates.service';
+import { PlansService } from '../../services/plans.service';
 
 @Component({
   selector: 'app-plans-page',
@@ -10,17 +10,17 @@ import { RatesService } from '../../services/rates.service';
   styleUrl: './plans.page.scss',
 })
 export class PlansPage {
-  private readonly rates = inject(RatesService);
+  private readonly plansService = inject(PlansService);
   private readonly router = inject(Router);
 
   protected readonly zipInput = signal('');
 
   protected readonly quoteState = computed(() => {
-    const zip = this.rates.normalizeZip(this.zipInput());
+    const zip = this.plansService.normalizeZip(this.zipInput());
     if (zip.length !== 5) {
       return { kind: 'empty' as const };
     }
-    const result = this.rates.quotePlansForZip(zip);
+    const result = this.plansService.quotePlansForZip(zip);
     if (!result) {
       return { kind: 'unknown' as const, zip };
     }

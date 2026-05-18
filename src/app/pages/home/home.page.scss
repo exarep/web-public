@@ -1,8 +1,16 @@
 .hero {
-  background: #ffffff;
+  background: linear-gradient(180deg, #ffffff 0%, #faf9f7 100%);
   color: #1f1f1f;
-  border-top: 3px solid #ee0000;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: linear-gradient(90deg, #ee0000 0%, rgba(238, 0, 0, 0.35) 28%, transparent 70%);
+  }
 }
 
 .hero .lead {
@@ -14,7 +22,30 @@
 }
 
 .callout-note {
-  background: #f8f9fa;
-  border: 1px solid #e0e0e0;
-  border-left: 4px solid #ee0000;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-left: 3px solid #ee0000;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.feature-card {
+  border-radius: 0.85rem !important;
+  border: 1px solid rgba(0, 0, 0, 0.07) !important;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    border-color: rgba(238, 0, 0, 0.22) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  .card-title {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
 }

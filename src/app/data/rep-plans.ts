@@ -1,6 +1,6 @@
 import type { RepEnergyPlan } from './tdsp.types';
 
-/** Fixed-rate residential “Fixed” lineup — fake SKUs with round numbers for demos. */
+/** Fixed-rate plan lineup (sample plans for demonstration). */
 export const REP_ENERGY_PLANS: RepEnergyPlan[] = [
   {
     code: 'FIXED_12',

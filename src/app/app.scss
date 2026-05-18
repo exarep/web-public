@@ -5,5 +5,7 @@
 }
 
 .page-main {
-  background-color: #f8f9fa;
+  /* Warm off-white so white cards read softer than on cool gray */
+  background-color: #f5f3ef;
+  background-image: radial-gradient(ellipse 120% 80% at 50% -20%, rgba(238, 0, 0, 0.035), transparent 55%);
 }

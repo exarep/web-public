@@ -1,6 +1,6 @@
 # web-public
 
-Public marketing site for **Exarep** — a deliberately fake Texas REP: **Fixed** (12/24/36) pretend plans, ZIP → TDSP cosplay, and a service form that logs to the console. Angular 20 + ng-bootstrap.
+Public marketing site for **Exarep** — a reference **Angular 20** front-end patterned after a Texas retail electric provider in ERCOT: fixed-term plans, ZIP-to-TDU context, and enrollment UI (demo data; console logging until APIs are wired). Uses **ng-bootstrap**.
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.26.
 

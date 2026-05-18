@@ -1,124 +1,300 @@
-<div class="container py-4 py-md-5 col-lg-10">
-  <header class="mb-4">
-    <h1 class="h2">Request service</h1>
-    <p class="text-secondary mb-0">
-      Theater! Give us your details and we’ll pretend someone in a headset cares. Nothing provisions, nothing switches — this
-      whole company is a polite fabrication for demos.
-    </p>
-  </header>
-
+<div class="enroll-shell py-4 py-md-5">
   @if (submission(); as s) {
-    <div class="alert alert-success">
-      <h2 class="alert-heading h5">“Success” (air quotes included)</h2>
-      <p class="mb-2">Reference ID: <strong>{{ s.referenceId }}</strong> — minted by JavaScript, backed by vibes.</p>
-      <p class="small mb-0">
-        Still no API, no queue, no angry billing system. Open the console if you crave JSON and quiet disappointment.
+    <div class="enroll-success">
+      <div class="enroll-success-hero">
+        <div class="enroll-success-mark" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M20 6L9 17l-5-5"
+              stroke="currentColor"
+              stroke-width="2.25"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+        <p class="enroll-success-kicker">Enrollment</p>
+        <h1 class="enroll-success-title">We’ve received your request</h1>
+        <p class="enroll-success-lead mb-0">
+          Thank you{{ form.controls.firstName.value ? ', ' + form.controls.firstName.value : '' }}. Your service request is on file
+          and ready for the next steps in our workflow.
+        </p>
+      </div>
+
+      @if (enrollmentOffer(); as offer) {
+        <div class="d-flex flex-wrap gap-2 mb-4 enroll-success-pills">
+          <span class="offer-pill rounded-pill">{{ planLabel(offer.planCode) }}</span>
+          <span class="offer-pill rounded-pill">{{ offer.termMonths }} months</span>
+          @if (offer.zipFromPlans) {
+            <span class="offer-pill rounded-pill">Plans ZIP {{ offer.zipFromPlans }}</span>
+          }
+          <span class="offer-pill rounded-pill">
+            {{ isCommercial() ? 'Small business' : 'Residential' }}
+          </span>
+        </div>
+      }
+
+      <div class="enroll-success-reference">
+        <span class="enroll-success-reference-label">Confirmation number</span>
+        <div class="enroll-success-reference-id font-monospace">{{ s.referenceId }}</div>
+        <p class="enroll-success-reference-hint mb-0">Keep this number handy if you contact us about your request.</p>
+      </div>
+
+      <div class="enroll-success-next">
+        <h2 class="enroll-success-next-title">What happens next</h2>
+        <ol class="enroll-success-next-list text-secondary small mb-0">
+          <li>We’ll send a confirmation to the email address you provided with a summary of your request.</li>
+          <li>If we need any additional information to finish processing, we’ll reach out using the contact details on file.</li>
+          <li>
+            Your local TDU still owns delivery and outage response—for power emergencies, contact your TDU or call 911 as
+            appropriate.
+          </li>
+        </ol>
+      </div>
+
+      <p class="enroll-success-demo small text-secondary mb-4 mb-md-0">
+        <strong class="text-dark">Demonstration only:</strong> no email is sent and no enrollment is processed. Developers can
+        inspect the submitted payload in the browser console (<code class="small">ServiceRequestService</code>).
       </p>
-      <a routerLink="/plans" class="btn btn-outline-success btn-sm mt-3">Back to make-believe rates</a>
-    </div>
-  } @else {
-    <div class="card border rounded-3 bg-white mb-4">
-      <div class="card-body p-4">
-        <h2 class="h6 text-uppercase text-secondary mb-3">Selected pretend offer</h2>
-        <dl class="row mb-0 small">
-          <dt class="col-sm-4">Plan</dt>
-          <dd class="col-sm-8">{{ planLabel(form.controls.planCode.value) }}</dd>
-          <dt class="col-sm-4">Term</dt>
-          <dd class="col-sm-8">{{ form.controls.termMonths.value }} months</dd>
-          <dt class="col-sm-4">ZIP</dt>
-          <dd class="col-sm-8">{{ form.controls.zip.value || '—' }}</dd>
-        </dl>
+
+      <div class="enroll-success-actions">
+        <a routerLink="/" class="btn btn-primary px-4 py-2 rounded-pill">Return to home</a>
       </div>
     </div>
+  } @else if (!enrollmentOffer()) {
+    <div class="state-soft-warning mb-4">
+      <p class="fw-semibold text-dark mb-1">Select a plan to enroll</p>
+      <p class="text-secondary small mb-0">
+        Choose a plan on <a routerLink="/plans" class="alert-link">Plans</a>, then return here to complete service
+        setup.
+      </p>
+    </div>
+  } @else if (enrollmentOffer(); as offer) {
+    <header class="mb-4 pb-1">
+      <p class="enroll-kicker">Enrollment</p>
+      <h1 class="enroll-title">Start or transfer service</h1>
+      <p class="enroll-lead mb-0">
+        Confirm your service location, then enter contact information. Search by street, city, ZIP, or ESI ID; after four
+        characters, select the row that matches your meter. <span class="text-muted">Demo lookup includes sample addresses for selected ZIP codes.</span>
+      </p>
+    </header>
 
-    <form class="card border rounded-3 bg-white" novalidate (ngSubmit)="submit()">
-      <div class="card-body p-4">
-        <div class="row g-3">
+    <div class="offer-strip d-flex flex-wrap gap-2 align-items-center mb-4">
+      <span class="offer-pill rounded-pill">{{ planLabel(offer.planCode) }}</span>
+      <span class="offer-pill rounded-pill">{{ offer.termMonths }} months</span>
+      @if (offer.zipFromPlans) {
+        <span class="offer-pill rounded-pill">Plans ZIP {{ offer.zipFromPlans }}</span>
+      }
+    </div>
+
+    <form novalidate [formGroup]="form" (ngSubmit)="submit()">
+      <div class="enroll-panel">
+        <div class="enroll-section-head">
+          <span class="enroll-step">1</span>
+          <div>
+            <h2 class="enroll-section-title">Service location</h2>
+            <p class="enroll-section-hint mb-0">
+              @if (servicePointQuoteZipScope(); as zq) {
+                Search includes only service points in ZIP <strong class="text-dark">{{ zq }}</strong> from your plan selection.
+              } @else {
+                Sample addresses are available for ZIP codes 75201, 77002, and 78701. Start from
+                <a routerLink="/plans" class="link-secondary">Plans</a> with a ZIP to limit lookup to that area.
+              }
+            </p>
+          </div>
+        </div>
+
+        <label class="visually-hidden" for="serviceSearch">Search address, ZIP, or ESI ID</label>
+        <input
+          id="serviceSearch"
+          type="search"
+          class="search-input"
+          autocomplete="off"
+          placeholder="Street, ZIP, or start of ESI ID…"
+          [value]="serviceSearchQuery()"
+          (input)="onServiceSearchInput($any($event.target).value)"
+        />
+
+        @if (serviceSearchQuery().trim().length > 0 && serviceSearchQuery().trim().length < 4) {
+          <p class="search-footnote">Enter at least four characters to search.</p>
+        }
+
+        @if (serviceSearchQuery().trim().length >= 4) {
+          <div class="results-shell">
+            @if (esiidMatches().length === 0) {
+              <div class="results-empty">
+                @if (servicePointQuoteZipScope(); as zq) {
+                  No matches in ZIP {{ zq }}. Adjust your search or verify your ZIP on
+                  <a routerLink="/plans" class="link-secondary fw-semibold">Plans</a>.
+                } @else {
+                  No matches. Try another address, ZIP, or ESI ID.
+                }
+              </div>
+            } @else {
+              <div class="results-header">{{ esiidMatches().length }} match{{ esiidMatches().length === 1 ? '' : 'es' }}</div>
+              <div class="results-scroll" role="listbox" aria-label="Matching electric service identifiers">
+                @for (c of esiidMatches(); track c.esiId) {
+                  <button
+                    type="button"
+                    class="esiid-row"
+                    [class.is-selected]="isRowSelected(c)"
+                    role="option"
+                    [attr.aria-selected]="isRowSelected(c)"
+                    (click)="pickListItem(c)"
+                  >
+                    <div class="esiid-row-id">{{ c.esiId }}</div>
+                    <div class="esiid-row-meta">
+                      {{ c.addressLine }}, {{ c.city }} {{ c.zip }}
+                      @if (c.tduName) {
+                        <span class="text-muted"> · {{ c.tduName }}</span>
+                      }
+                    </div>
+                  </button>
+                }
+              </div>
+            }
+          </div>
+        }
+
+        @if (selectedCandidate(); as sc) {
+          <div class="selection-card">
+            <div class="d-flex flex-column flex-sm-row gap-3 justify-content-between align-items-start">
+              <div>
+                <div class="selection-label">Selected service point</div>
+                <div class="font-monospace fw-semibold text-dark">{{ sc.esiId }}</div>
+                <div class="small text-secondary mt-1">{{ sc.addressLine }}, {{ sc.city }}, {{ sc.state }} {{ sc.zip }}</div>
+              </div>
+              <button type="button" class="btn btn-sm btn-link text-decoration-none text-secondary px-0" (click)="clearServicePoint()">
+                Clear
+              </button>
+            </div>
+          </div>
+        }
+
+        @if (form.controls.esiId.invalid && form.controls.esiId.touched) {
+          <p class="feedback-inline text-danger mb-0">
+            @if (form.controls.esiId.errors?.['esiIdRequired']) {
+              Select a service point from the list.
+            } @else if (form.controls.esiId.errors?.['esiIdFormat']) {
+              Selection is invalid — choose a row again.
+            }
+          </p>
+        }
+      </div>
+
+      <div class="enroll-panel">
+        <div class="enroll-section-head">
+          <span class="enroll-step">2</span>
+          <div>
+            <h2 class="enroll-section-title">Account contact</h2>
+            <p class="enroll-section-hint mb-0">Primary contact for this service request.</p>
+          </div>
+        </div>
+
+        <fieldset class="row g-3 contact-grid">
+          <legend class="visually-hidden">Account contact details</legend>
+          <div class="col-12">
+            <span class="form-label d-block mb-2" id="accountTypeLabel">Customer type</span>
+            <div
+              class="btn-group w-100 account-type-toggle"
+              role="group"
+              aria-labelledby="accountTypeLabel"
+            >
+              <input
+                type="radio"
+                class="btn-check"
+                formControlName="accountType"
+                id="accountTypeResidential"
+                value="residential"
+              />
+              <label class="btn btn-outline-secondary py-2" for="accountTypeResidential">Residential</label>
+              <input
+                type="radio"
+                class="btn-check"
+                formControlName="accountType"
+                id="accountTypeCommercial"
+                value="commercial"
+              />
+              <label class="btn btn-outline-secondary py-2" for="accountTypeCommercial">Small business</label>
+            </div>
+            <p class="small text-secondary mt-2 mb-0">
+              Residential enrolls a household account. Small business enrolls a commercial account using the legal entity name and
+              an authorized representative.
+            </p>
+          </div>
+          @if (isCommercial()) {
+            <div class="col-12">
+              <label class="form-label" for="businessName">Legal business name</label>
+              <input
+                id="businessName"
+                type="text"
+                class="form-control"
+                formControlName="businessName"
+                autocomplete="organization"
+                [class.is-invalid]="form.controls.businessName.invalid && form.controls.businessName.touched"
+              />
+              @if (form.controls.businessName.invalid && form.controls.businessName.touched) {
+                <div class="invalid-feedback d-block">Enter the name of the business</div>
+              }
+            </div>
+            <div class="col-12">
+              <p class="small text-secondary mb-0">Enter the authorized contact who will manage this account on behalf of the business.</p>
+            </div>
+          }
           <div class="col-md-6">
             <label class="form-label" for="firstName">First name</label>
             <input id="firstName" class="form-control" formControlName="firstName" autocomplete="given-name" />
             @if (form.controls.firstName.invalid && form.controls.firstName.touched) {
-              <div class="invalid-feedback d-block">First name is required.</div>
+              <div class="invalid-feedback d-block">Required</div>
             }
           </div>
           <div class="col-md-6">
             <label class="form-label" for="lastName">Last name</label>
             <input id="lastName" class="form-control" formControlName="lastName" autocomplete="family-name" />
             @if (form.controls.lastName.invalid && form.controls.lastName.touched) {
-              <div class="invalid-feedback d-block">Last name is required.</div>
+              <div class="invalid-feedback d-block">Required</div>
             }
           </div>
           <div class="col-md-6">
             <label class="form-label" for="email">Email</label>
             <input id="email" type="email" class="form-control" formControlName="email" autocomplete="email" />
             @if (form.controls.email.invalid && form.controls.email.touched) {
-              <div class="invalid-feedback d-block">Valid email required.</div>
+              <div class="invalid-feedback d-block">Valid email</div>
             }
           </div>
           <div class="col-md-6">
             <label class="form-label" for="phone">Phone</label>
             <input id="phone" type="tel" class="form-control" formControlName="phone" autocomplete="tel" />
             @if (form.controls.phone.invalid && form.controls.phone.touched) {
-              <div class="invalid-feedback d-block">Enter a phone number we can reach you at.</div>
+              <div class="invalid-feedback d-block">At least 10 digits</div>
             }
           </div>
           <div class="col-12">
-            <label class="form-label" for="serviceAddress">Service street address</label>
-            <input id="serviceAddress" class="form-control" formControlName="serviceAddress" autocomplete="street-address" />
-            @if (form.controls.serviceAddress.invalid && form.controls.serviceAddress.touched) {
-              <div class="invalid-feedback d-block">Service address is required.</div>
-            }
-          </div>
-          <div class="col-md-6">
-            <label class="form-label" for="serviceCity">City</label>
-            <input id="serviceCity" class="form-control" formControlName="serviceCity" autocomplete="address-level2" />
-            @if (form.controls.serviceCity.invalid && form.controls.serviceCity.touched) {
-              <div class="invalid-feedback d-block">City is required.</div>
-            }
-          </div>
-          <div class="col-md-3">
-            <label class="form-label" for="serviceState">State</label>
-            <input id="serviceState" class="form-control text-uppercase" maxlength="2" formControlName="serviceState" />
-          </div>
-          <div class="col-md-3">
-            <label class="form-label" for="zip">ZIP</label>
-            <input id="zip" class="form-control" maxlength="5" formControlName="zip" autocomplete="postal-code" />
-            @if (form.controls.zip.invalid && form.controls.zip.touched) {
-              <div class="invalid-feedback d-block">Enter a five-digit ZIP.</div>
-            }
-          </div>
-          <div class="col-md-6">
-            <label class="form-label" for="esiId">ESIID <span class="text-secondary">(optional)</span></label>
-            <input id="esiId" class="form-control" formControlName="esiId" />
-          </div>
-          <div class="col-md-6">
-            <label class="form-label" for="notes">Notes <span class="text-secondary">(optional)</span></label>
+            <label class="form-label" for="notes">Notes <span class="text-muted fw-normal">(optional)</span></label>
             <textarea id="notes" rows="2" class="form-control" formControlName="notes"></textarea>
           </div>
-        </div>
+        </fieldset>
 
-        <input type="hidden" formControlName="termMonths" />
-        <input type="hidden" formControlName="planCode" />
+        <hr class="divider-soft" />
 
-        <div class="form-check mt-4">
+        <div class="form-check">
           <input class="form-check-input" type="checkbox" id="consent" formControlName="consent" />
-          <label class="form-check-label" for="consent">
-            I know Exarep is imaginary, this workflow is a stub, and any “final pricing” talk is hypothetical — but I’ll play
-            along and pretend to read an EFL anyway.
+          <label class="form-check-label small text-secondary" for="consent">
+            I understand this is a demonstration and does not enroll me with a live retail electric provider.
           </label>
         </div>
         @if (form.controls.consent.invalid && form.controls.consent.touched) {
-          <div class="invalid-feedback d-block">Check the box — consent with your eyes open.</div>
+          <div class="invalid-feedback d-block">Confirm to continue</div>
         }
 
-        <div class="d-flex gap-3 mt-4 flex-column flex-sm-row">
-          <button class="btn btn-primary" type="submit" [disabled]="submitting()">
+        <div class="d-flex flex-column flex-sm-row gap-2 gap-sm-3 mt-4">
+          <button class="btn btn-primary px-4 py-2 rounded-pill" type="submit" [disabled]="submitting()">
             @if (submitting()) {
               <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
             }
-            Submit into the void
+            Submit request
           </button>
-          <a routerLink="/plans" class="btn btn-outline-secondary">Edit plan selection</a>
+          <a routerLink="/plans" class="btn btn-link text-secondary text-decoration-none px-sm-3">Choose a different plan</a>
         </div>
       </div>
     </form>

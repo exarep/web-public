@@ -3,8 +3,22 @@
   <router-outlet />
 </main>
 <footer class="border-top py-4 mt-auto small text-secondary">
-  <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
-    <span>&copy; {{ year }} <span aria-hidden="true">⚡</span> Exarep — we are not a REP; we play one in docs.</span>
-    <span>Rates are fanfiction. Offers void wherever seriousness lives.</span>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-6">
+        <p class="mb-2 fw-semibold text-dark"><span aria-hidden="true">⚡</span> Exarep</p>
+        <p class="mb-0">
+          Retail electricity for residential and small business customers in ERCOT. For questions about your account or outage
+          reporting, contact your TDU for emergencies and your provider for billing and service changes.
+        </p>
+      </div>
+      <div class="col-md-6">
+        <p class="mb-2">
+          This site includes demonstration plans and sample enrollment data. Confirm all pricing and contract terms on official
+          documents before signing.
+        </p>
+        <p class="mb-0">&copy; {{ year }} Exarep. All rights reserved.</p>
+      </div>
+    </div>
   </div>
 </footer>
