@@ -1,40 +1,29 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { CurrencyPipe, DecimalPipe } from '@angular/common';
-import { PlanService } from '../../services/plan.service';
-import { Plan, PlanEstimate, calculateEstimates } from '../../services/plan.model';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-plans',
-  imports: [CurrencyPipe, DecimalPipe],
+  imports: [FormsModule],
   templateUrl: './plans.page.html'
 })
 export class PlansPage implements OnInit {
-  private readonly planService = inject(PlanService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
-  protected readonly plans = this.planService.plans;
-  protected readonly loading = this.planService.loading;
+  protected readonly zipCode = signal('');
 
   ngOnInit(): void {
-    if (this.plans().length === 0) {
-      this.planService.loadPlansForZip('75001');
+    const zip = this.route.snapshot.queryParamMap.get('zip');
+    if (zip && zip.length === 5) {
+      this.zipCode.set(zip);
+      this.onZipSubmit();
     }
   }
 
-  onSelectPlan(plan: Plan): void {
-    this.router.navigate(['/enroll'], { queryParams: { plan: plan.planId } });
-  }
-
-  getEstimates(plan: Plan): PlanEstimate[] {
-    return calculateEstimates(plan);
-  }
-
-  formatRate(rate: number): string {
-    return (rate * 100).toFixed(1);
-  }
-
-  formatCentsPerKwh(rate: number): string {
-    return (rate * 100).toFixed(1);
+  onZipSubmit(): void {
+    if (this.zipCode().length === 5) {
+      this.router.navigate(['/enroll'], { queryParams: { zip: this.zipCode() } });
+    }
   }
 }

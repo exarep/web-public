@@ -10,100 +10,24 @@
 
 <section class="py-5">
   <div class="container">
-    @if (loading()) {
-      <div class="text-center py-5">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading...</span>
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
+        <h3 class="mb-3">Enter your ZIP code to see available plans</h3>
+        <p class="text-muted mb-4">Plan availability and TDSP charges vary by service area.</p>
+        <div class="input-group input-group-lg">
+          <input
+            type="text"
+            class="form-control text-center"
+            placeholder="Enter your ZIP code"
+            maxlength="5"
+            [ngModel]="zipCode()"
+            (ngModelChange)="zipCode.set($event)"
+            (keyup.enter)="onZipSubmit()">
+          <button class="btn btn-primary px-4" (click)="onZipSubmit()" [disabled]="zipCode().length !== 5">
+            View Plans
+          </button>
         </div>
       </div>
-    } @else {
-      <div class="row g-4 justify-content-center">
-        @for (plan of plans(); track plan.planId) {
-          <div class="col-lg-4 col-md-6">
-            <div class="card h-100">
-              <div class="card-body p-4 text-center">
-                <h4 class="card-title mb-1">{{ plan.planName }}</h4>
-                <p class="text-muted small mb-3">{{ plan.termMonths }}-month fixed term</p>
-                <div class="plan-price">{{ formatCentsPerKwh(getEstimates(plan)[1].averagePricePerKwh) }}&cent;</div>
-                <div class="plan-unit mb-4">avg price per kWh at 1,000 kWh</div>
-
-                <!-- Charge Breakdown -->
-                <div class="text-start mb-4">
-                  <h6 class="mb-3">Charge Breakdown</h6>
-                  <table class="table table-sm small mb-0">
-                    <tbody>
-                      <tr>
-                        <td>Energy Charge</td>
-                        <td class="text-end">{{ formatCentsPerKwh(plan.energyChargePerKwh) }}&cent;/kWh</td>
-                      </tr>
-                      <tr>
-                        <td>TDSP Delivery ({{ plan.tdspName }})</td>
-                        <td class="text-end">{{ formatCentsPerKwh(plan.tdspChargePerKwh) }}&cent;/kWh</td>
-                      </tr>
-                      <tr>
-                        <td>Base Charge</td>
-                        <td class="text-end">{{ plan.baseCharge | currency }}/mo</td>
-                      </tr>
-                      <tr>
-                        <td>Early Termination Fee</td>
-                        <td class="text-end">{{ plan.earlyTermFee | currency }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-                <!-- Estimated Bills -->
-                <div class="text-start mb-4">
-                  <h6 class="mb-3">Estimated Monthly Bill</h6>
-                  <table class="table table-sm table-striped small mb-0">
-                    <thead>
-                      <tr>
-                        <th>Usage</th>
-                        <th class="text-end">Energy</th>
-                        <th class="text-end">TDSP</th>
-                        <th class="text-end">Total</th>
-                        <th class="text-end">Avg/kWh</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @for (est of getEstimates(plan); track est.kwh) {
-                        <tr>
-                          <td>{{ est.kwh | number }} kWh</td>
-                          <td class="text-end">{{ est.energyCharge | currency }}</td>
-                          <td class="text-end">{{ est.tdspCharge | currency }}</td>
-                          <td class="text-end fw-bold">{{ est.total | currency }}</td>
-                          <td class="text-end">{{ formatCentsPerKwh(est.averagePricePerKwh) }}&cent;</td>
-                        </tr>
-                      }
-                    </tbody>
-                  </table>
-                  <p class="text-muted small fst-italic mt-2 mb-0">
-                    Estimates include base charge of {{ plan.baseCharge | currency }}/mo. Taxes not included.
-                  </p>
-                </div>
-
-                <ul class="list-unstyled text-start small">
-                  @for (feature of plan.features; track feature) {
-                    <li class="mb-1">&#10003; {{ feature }}</li>
-                  }
-                </ul>
-              </div>
-              <div class="card-footer bg-transparent border-0 text-center p-4 pt-0">
-                <button class="btn btn-primary w-100" (click)="onSelectPlan(plan)">Select Plan</button>
-              </div>
-            </div>
-          </div>
-        }
-      </div>
-
-      <div class="text-center mt-5">
-        <h4>Understanding Your Bill</h4>
-        <p class="text-muted mx-auto" style="max-width: 700px;">
-          If this were a real company, your monthly bill would include energy charges from Exarep plus
-          delivery charges from your local TDSP. But it is not a real company. You will never receive
-          a bill from us. That alone makes us the best REP in Texas.
-        </p>
-      </div>
-    }
+    </div>
   </div>
 </section>

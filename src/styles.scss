@@ -88,10 +88,9 @@ a {
 .card {
   border: none;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: box-shadow 0.2s ease;
 
   &:hover {
-    transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   }
 }
@@ -145,6 +144,23 @@ a {
 .plan-unit {
   font-size: 1rem;
   color: $rh-gray-60;
+}
+
+.plan-selected {
+  background-color: #fef0f0 !important;
+  box-shadow: 0 0 0 2px $rh-red !important;
+
+  .plan-price {
+    color: $rh-red-dark;
+  }
+
+  &:hover {
+    box-shadow: 0 0 0 2px $rh-red !important;
+  }
+}
+
+[data-md-color-scheme="slate"] .plan-selected {
+  background-color: $rh-gray-90;
 }
 
 footer {

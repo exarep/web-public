@@ -1,6 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { EnrollmentRequest, ServiceAddress } from './enrollment.model';
 import { Plan } from './plan.model';
+import { ServicePoint } from './service-point.model';
 
 @Injectable({ providedIn: 'root' })
 export class EnrollmentService {
@@ -16,14 +16,7 @@ export class EnrollmentService {
   readonly businessName = signal('');
   readonly email = signal('');
   readonly phone = signal('');
-  readonly serviceAddress = signal<ServiceAddress>({
-    addressLine1: '',
-    addressLine2: '',
-    city: '',
-    state: 'TX',
-    zip: ''
-  });
-  readonly esiId = signal('');
+  readonly selectedServicePoint = signal<ServicePoint | null>(null);
   readonly agreeToTerms = signal(false);
   readonly submitting = signal(false);
   readonly submitted = signal(false);
@@ -37,7 +30,7 @@ export class EnrollmentService {
     }
     return this.businessName().length > 0 && this.email().length > 0 && this.phone().length > 0;
   });
-  readonly canProceedToReview = computed(() => this.serviceAddress().addressLine1.length > 0 && this.serviceAddress().city.length > 0 && this.serviceAddress().zip.length > 0);
+  readonly canProceedToReview = computed(() => this.selectedServicePoint() !== null);
   readonly canSubmit = computed(() => this.agreeToTerms());
 
   nextStep(): void {
@@ -61,7 +54,6 @@ export class EnrollmentService {
   submit(): void {
     this.submitting.set(true);
 
-    // Simulated API call
     setTimeout(() => {
       this.confirmationNumber.set('EXR-' + Math.random().toString(36).substring(2, 10).toUpperCase());
       this.submitting.set(false);
@@ -79,8 +71,7 @@ export class EnrollmentService {
     this.businessName.set('');
     this.email.set('');
     this.phone.set('');
-    this.serviceAddress.set({ addressLine1: '', addressLine2: '', city: '', state: 'TX', zip: '' });
-    this.esiId.set('');
+    this.selectedServicePoint.set(null);
     this.agreeToTerms.set(false);
     this.submitting.set(false);
     this.submitted.set(false);

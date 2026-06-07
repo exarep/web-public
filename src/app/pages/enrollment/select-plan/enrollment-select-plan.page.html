@@ -16,6 +16,7 @@
             class="card p-3"
             [class.border-danger]="selectedPlan()?.planId === plan.planId"
             [class.border-2]="selectedPlan()?.planId === plan.planId"
+            [class.plan-selected]="selectedPlan()?.planId === plan.planId"
             style="cursor: pointer;"
             (click)="selectPlan(plan)">
             <div class="d-flex justify-content-between align-items-start mb-2">

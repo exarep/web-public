@@ -1,3 +1,5 @@
+import { ServicePoint } from './service-point.model';
+
 export interface EnrollmentRequest {
   zipCode: string;
   planId: string;
@@ -7,15 +9,6 @@ export interface EnrollmentRequest {
   businessName: string;
   email: string;
   phone: string;
-  serviceAddress: ServiceAddress;
-  esiId: string;
+  servicePoint: ServicePoint;
   agreeToTerms: boolean;
-}
-
-export interface ServiceAddress {
-  addressLine1: string;
-  addressLine2: string;
-  city: string;
-  state: string;
-  zip: string;
 }

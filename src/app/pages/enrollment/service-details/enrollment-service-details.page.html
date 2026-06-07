@@ -1,48 +1,71 @@
 <div class="card p-4">
-  <h3 class="mb-3">Service Address</h3>
+  <h3 class="mb-3">Service Point</h3>
   <p class="text-muted mb-4">
-    Enter the address where you need electricity service.
-    If you know your ESI ID, you can provide it to speed up the enrollment process.
+    Search for your service point by entering at least 4 characters of your street address, city, ZIP code, or ESI ID.
   </p>
 
-  <div class="mb-3">
-    <label for="addressLine1" class="form-label">Street Address</label>
-    <input type="text" class="form-control" id="addressLine1"
-      [ngModel]="serviceAddress().addressLine1" (ngModelChange)="updateAddress('addressLine1', $event)">
-  </div>
-  <div class="mb-3">
-    <label for="addressLine2" class="form-label">Apt, Suite, Unit <span class="text-muted">(optional)</span></label>
-    <input type="text" class="form-control" id="addressLine2"
-      [ngModel]="serviceAddress().addressLine2" (ngModelChange)="updateAddress('addressLine2', $event)">
-  </div>
-  <div class="row g-3">
-    <div class="col-md-5">
-      <label for="city" class="form-label">City</label>
-      <input type="text" class="form-control" id="city"
-        [ngModel]="serviceAddress().city" (ngModelChange)="updateAddress('city', $event)">
-    </div>
-    <div class="col-md-3">
-      <label for="state" class="form-label">State</label>
-      <input type="text" class="form-control" id="state" value="TX" disabled>
-    </div>
-    <div class="col-md-4">
-      <label for="zip" class="form-label">ZIP Code</label>
-      <input type="text" class="form-control" id="zip" maxlength="5"
-        [ngModel]="serviceAddress().zip" (ngModelChange)="updateAddress('zip', $event)">
-    </div>
-  </div>
-
-  <hr class="my-4">
-
-  <div class="mb-3">
-    <label for="esiId" class="form-label">ESI ID <span class="text-muted">(optional)</span></label>
-    <input type="text" class="form-control" id="esiId" placeholder="17-digit ESI ID"
-      maxlength="17" [ngModel]="esiId()" (ngModelChange)="esiId.set($event)">
+  <!-- Search -->
+  <div class="mb-4">
+    <label for="servicePointSearch" class="form-label">Search Address or ESI ID</label>
+    <ng-template #rt let-r="result" let-t="term">
+      @if (isSentinel(r)) {
+        <span class="text-muted fst-italic small">{{ moreCount }} more results — type more to narrow down</span>
+      } @else {
+        <span>{{ resultFormatter(r) }}</span>
+      }
+    </ng-template>
+    <input
+      id="servicePointSearch"
+      type="text"
+      class="form-control form-control-lg"
+      placeholder="e.g. 1200 Main, 75201, or 1044372000610"
+      [ngModel]="searchText()"
+      (ngModelChange)="searchText.set($event)"
+      [ngbTypeahead]="search"
+      [resultTemplate]="rt"
+      [inputFormatter]="inputFormatter"
+      (selectItem)="onSelect($event)"
+      [editable]="true" />
     <div class="form-text">
-      Your ESI ID is a 17-digit number that identifies your electric meter.
-      You can find it on a previous electricity bill. If you do not have it, we will look it up using your address.
+      Start typing to search available service points. Results will appear after 4 characters.
     </div>
   </div>
+
+  <!-- Selected Service Point Details -->
+  @if (selectedServicePoint(); as sp) {
+    <div class="card bg-light p-4 mb-4">
+      <div class="d-flex justify-content-between align-items-start">
+        <h5 class="mb-3">Selected Service Point</h5>
+        <button class="btn btn-sm btn-outline-secondary" (click)="clearSelection()">Clear</button>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <h6 class="text-muted small mb-1">Premise Address</h6>
+          <p class="mb-1">{{ sp.addressLine1 }}</p>
+          @if (sp.addressLine2) {
+            <p class="mb-1">{{ sp.addressLine2 }}</p>
+          }
+          <p class="mb-0">{{ sp.city }}, {{ sp.state }} {{ sp.zip }}</p>
+        </div>
+        <div class="col-md-6">
+          <h6 class="text-muted small mb-1">ESI ID</h6>
+          <p class="mb-2 font-monospace">{{ sp.esiId }}</p>
+          <h6 class="text-muted small mb-1">TDSP</h6>
+          <p class="mb-2">{{ sp.tdspName }}</p>
+          <div class="d-flex gap-4">
+            <div>
+              <h6 class="text-muted small mb-1">Meter Type</h6>
+              <p class="mb-0">{{ sp.meterType }}</p>
+            </div>
+            <div>
+              <h6 class="text-muted small mb-1">Rate Class</h6>
+              <p class="mb-0">{{ sp.rateClass }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
 
   <div class="d-flex justify-content-between mt-4">
     <button class="btn btn-outline-secondary" (click)="onBack()">&larr; Back</button>

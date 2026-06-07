@@ -9,16 +9,59 @@
     </div>
     @if (selectedPlan(); as plan) {
       <div class="bg-light rounded p-3 mt-2">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between mb-3">
           <div>
-            <strong>{{ plan.planName }}</strong>
+            <strong class="fs-5">{{ plan.planName }}</strong>
             <p class="text-muted small mb-0">{{ plan.termMonths }}-month fixed term</p>
           </div>
           <div class="text-end">
-            <span class="fw-bold" style="color: #ee0000; font-size: 1.25rem;">{{ formatRate(plan.energyChargePerKwh) }}&cent;/kWh</span>
-            <p class="text-muted small mb-0">{{ plan.baseCharge | currency }}/mo base</p>
+            <span class="fw-bold" style="color: #ee0000; font-size: 1.5rem;">{{ formatRate(getEstimates(plan)[1].averagePricePerKwh) }}&cent;</span>
+            <div class="text-muted small">avg/kWh at 1,000 kWh</div>
           </div>
         </div>
+        <table class="table table-sm small mb-3">
+          <tbody>
+            <tr>
+              <td class="text-muted">Energy Charge</td>
+              <td class="text-end">{{ formatRate(plan.energyChargePerKwh) }}&cent;/kWh</td>
+            </tr>
+            <tr>
+              <td class="text-muted">TDSP Delivery ({{ plan.tdspName }})</td>
+              <td class="text-end">{{ formatRate(plan.tdspChargePerKwh) }}&cent;/kWh</td>
+            </tr>
+            <tr>
+              <td class="text-muted">Base Charge</td>
+              <td class="text-end">{{ plan.baseCharge | currency }}/mo</td>
+            </tr>
+            <tr>
+              <td class="text-muted">Early Termination Fee</td>
+              <td class="text-end">{{ plan.earlyTermFee | currency }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <h6 class="small mb-2">Estimated Monthly Bill</h6>
+        <table class="table table-sm table-striped small mb-0">
+          <thead>
+            <tr>
+              <th>Usage</th>
+              <th class="text-end">Energy</th>
+              <th class="text-end">TDSP</th>
+              <th class="text-end">Total</th>
+              <th class="text-end">Avg/kWh</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (est of getEstimates(plan); track est.kwh) {
+              <tr>
+                <td>{{ est.kwh | number }} kWh</td>
+                <td class="text-end">{{ est.energyCharge | currency }}</td>
+                <td class="text-end">{{ est.tdspCharge | currency }}</td>
+                <td class="text-end fw-bold">{{ est.total | currency }}</td>
+                <td class="text-end">{{ formatRate(est.averagePricePerKwh) }}&cent;</td>
+              </tr>
+            }
+          </tbody>
+        </table>
       </div>
     }
   </div>
@@ -40,22 +83,23 @@
     </div>
   </div>
 
-  <!-- Service Address -->
+  <!-- Service Point -->
   <div class="mb-4">
     <div class="d-flex justify-content-between align-items-center">
-      <h5>Service Address</h5>
+      <h5>Service Point</h5>
       <button class="btn btn-sm btn-outline-secondary" (click)="enrollmentService.goToStep(4)">Edit</button>
     </div>
-    <div class="bg-light rounded p-3 mt-2">
-      <p class="mb-1">{{ serviceAddress().addressLine1 }}</p>
-      @if (serviceAddress().addressLine2) {
-        <p class="mb-1">{{ serviceAddress().addressLine2 }}</p>
-      }
-      <p class="mb-0">{{ serviceAddress().city }}, {{ serviceAddress().state }} {{ serviceAddress().zip }}</p>
-      @if (esiId()) {
-        <p class="text-muted small mt-2 mb-0">ESI ID: {{ esiId() }}</p>
-      }
-    </div>
+    @if (selectedServicePoint(); as sp) {
+      <div class="bg-light rounded p-3 mt-2">
+        <p class="mb-1">{{ sp.addressLine1 }}</p>
+        @if (sp.addressLine2) {
+          <p class="mb-1">{{ sp.addressLine2 }}</p>
+        }
+        <p class="mb-2">{{ sp.city }}, {{ sp.state }} {{ sp.zip }}</p>
+        <p class="text-muted small mb-1">ESI ID: <span class="font-monospace">{{ sp.esiId }}</span></p>
+        <p class="text-muted small mb-0">{{ sp.tdspName }} &middot; {{ sp.meterType }} &middot; {{ sp.rateClass }}</p>
+      </div>
+    }
   </div>
 
   <!-- Terms -->
