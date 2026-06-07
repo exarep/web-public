@@ -11,35 +11,49 @@
   } @else {
     <div class="row g-3">
       @for (plan of plans(); track plan.planId) {
-        <div class="col-md-6">
+        <div class="col-12">
           <div
-            class="card p-3 h-100"
+            class="card p-3"
             [class.border-danger]="selectedPlan()?.planId === plan.planId"
             [class.border-2]="selectedPlan()?.planId === plan.planId"
             style="cursor: pointer;"
             (click)="selectPlan(plan)">
-            <div class="d-flex justify-content-between align-items-start">
+            <div class="d-flex justify-content-between align-items-start mb-2">
               <div>
                 <h5 class="mb-1">{{ plan.planName }}</h5>
-                <p class="text-muted small mb-2">
-                  @if (plan.termMonths > 0) {
-                    {{ plan.termMonths }}-month term
-                  } @else {
-                    Month-to-month
-                  }
-                </p>
+                <p class="text-muted small mb-0">{{ plan.termMonths }}-month fixed term</p>
               </div>
               <div class="text-end">
-                <span class="plan-price" style="font-size: 2rem;">{{ formatRate(plan.ratePerKwh) }}&cent;</span>
-                <div class="plan-unit">per kWh</div>
+                <span class="plan-price" style="font-size: 2rem;">{{ formatRate(getEstimates(plan)[1].averagePricePerKwh) }}&cent;</span>
+                <div class="plan-unit">avg/kWh at 1,000 kWh</div>
               </div>
             </div>
-            @if (plan.baseCharge > 0) {
-              <p class="text-muted small mb-1">{{ plan.baseCharge | currency }}/mo base charge</p>
-            }
-            @if (plan.earlyTermFee > 0) {
-              <p class="text-muted small mb-0">{{ plan.earlyTermFee | currency }} early termination fee</p>
-            }
+            <table class="table table-sm table-striped small mb-2">
+              <thead>
+                <tr>
+                  <th>Usage</th>
+                  <th class="text-end">Energy</th>
+                  <th class="text-end">TDSP</th>
+                  <th class="text-end">Total</th>
+                  <th class="text-end">Avg/kWh</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (est of getEstimates(plan); track est.kwh) {
+                  <tr>
+                    <td>{{ est.kwh | number }} kWh</td>
+                    <td class="text-end">{{ est.energyCharge | currency }}</td>
+                    <td class="text-end">{{ est.tdspCharge | currency }}</td>
+                    <td class="text-end fw-bold">{{ est.total | currency }}</td>
+                    <td class="text-end">{{ formatRate(est.averagePricePerKwh) }}&cent;</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-between small text-muted">
+              <span>Base: {{ plan.baseCharge | currency }}/mo</span>
+              <span>Early term fee: {{ plan.earlyTermFee | currency }}</span>
+            </div>
           </div>
         </div>
       }

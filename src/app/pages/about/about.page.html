@@ -4,6 +4,9 @@
     <p class="lead mx-auto" style="max-width: 600px;">
       A Texas retail electric provider built on transparency, reliability, and putting customers first.
     </p>
+    <p class="small fst-italic mx-auto" style="max-width: 500px; color: #a3a3a3;">
+      Also built entirely on Red Hat technologies and a healthy dose of imagination.
+    </p>
   </div>
 </section>
 
@@ -12,19 +15,26 @@
     <div class="row g-5 align-items-center">
       <div class="col-lg-6">
         <h2 class="mb-4">Our Mission</h2>
+        <div class="alert alert-warning mb-4">
+          <strong>Disclaimer:</strong> Exarep is a fictitious company created solely to demonstrate
+          enterprise application architecture using Red Hat technologies including OpenShift, Quarkus,
+          Kafka, and more. We do not sell electricity, we do not have a PUCT certificate, and our
+          "customer service team" is a Quarkus REST endpoint that returns JSON.
+        </div>
         <p>
           Exarep was founded with a simple belief: Texans deserve an electricity provider that is honest
           about pricing, responsive when they need help, and committed to delivering reliable power.
         </p>
         <p>
-          As a licensed Retail Electric Provider in the deregulated Texas market, we purchase wholesale
-          electricity and sell it directly to homes and businesses across the state. We work with your
-          local Transmission and Distribution Service Provider (TDSP) to ensure seamless delivery.
+          As a <em>hypothetical</em> Retail Electric Provider in the deregulated Texas market, we
+          <em>would</em> purchase wholesale electricity and sell it directly to homes and businesses across
+          the state. We <em>would</em> work with your local TDSP to ensure seamless delivery. If, you know,
+          we existed.
         </p>
         <p>
-          We believe the deregulated market should empower consumers with real choices — not confuse
-          them with misleading rates and hidden fees. Every plan we offer comes with a clear Electricity
-          Facts Label so you know exactly what you are paying.
+          What <em>does</em> exist is the full technology stack behind this application — built on
+          Red Hat OpenShift, Quarkus, Angular, Kafka, and PostgreSQL — demonstrating how a real REP
+          could be built with enterprise open-source software.
         </p>
       </div>
       <div class="col-lg-6">
@@ -34,27 +44,31 @@
             <tbody>
               <tr>
                 <td class="fw-bold" style="width: 40%;">Headquarters</td>
-                <td>Houston, Texas</td>
+                <td>A laptop, probably</td>
               </tr>
               <tr>
                 <td class="fw-bold">Licensed By</td>
-                <td>Public Utility Commission of Texas (PUCT)</td>
+                <td>Nobody. We are not real.</td>
+              </tr>
+              <tr>
+                <td class="fw-bold">Powered By</td>
+                <td>Red Hat OpenShift, Quarkus, Kafka, PostgreSQL</td>
               </tr>
               <tr>
                 <td class="fw-bold">Market</td>
-                <td>ERCOT (Electric Reliability Council of Texas)</td>
+                <td>ERCOT (if we were real)</td>
               </tr>
               <tr>
                 <td class="fw-bold">Service Areas</td>
-                <td>Oncor, CenterPoint, AEP Texas, TNMP</td>
+                <td>Oncor, CenterPoint, AEP Texas, TNMP (hypothetically)</td>
               </tr>
               <tr>
-                <td class="fw-bold">Customer Types</td>
-                <td>Residential &amp; Commercial</td>
+                <td class="fw-bold">Customers</td>
+                <td>0 (and counting)</td>
               </tr>
               <tr>
                 <td class="fw-bold">Support</td>
-                <td>Texas-based, Mon-Sat</td>
+                <td>curl localhost:8081/api/support</td>
               </tr>
             </tbody>
           </table>
@@ -71,22 +85,22 @@
       <div class="col-md-4">
         <h4>Transparency</h4>
         <p class="text-muted">
-          No teaser rates, no bait-and-switch. Our pricing is straightforward and our Electricity Facts
-          Labels tell the full story.
+          We are so transparent that we are telling you upfront: this company does not exist.
+          That is peak transparency. You are welcome.
         </p>
       </div>
       <div class="col-md-4">
         <h4>Reliability</h4>
         <p class="text-muted">
-          We work closely with TDSPs and ERCOT to ensure your power is always on and your account
-          is always in good standing.
+          Our OpenShift clusters have better uptime than some actual electricity providers.
+          The app is reliable. The electricity? Imaginary.
         </p>
       </div>
       <div class="col-md-4">
-        <h4>Customer First</h4>
+        <h4>Open Source</h4>
         <p class="text-muted">
-          Real people answer our phones. Our Texas-based support team is here to help, whether you
-          have a billing question or need to move service.
+          Built entirely on enterprise open-source software from Red Hat. The only thing proprietary
+          here is our fake company name.
         </p>
       </div>
     </div>
@@ -95,7 +109,10 @@
 
 <section class="py-5">
   <div class="container">
-    <h2 class="text-center mb-5">How the Texas Electricity Market Works</h2>
+    <h2 class="text-center mb-5">How the Texas Electricity Market <em>Actually</em> Works</h2>
+    <p class="text-center text-muted small fst-italic mb-5" style="margin-top: -1.5rem;">
+      This part is real. We did our homework even if the company is made up.
+    </p>
     <div class="row g-4">
       <div class="col-md-6">
         <h5>Deregulation</h5>
@@ -123,8 +140,9 @@
       <div class="col-md-6">
         <h5>Seamless Switching</h5>
         <p class="text-muted">
-          When you switch to Exarep, we submit an enrollment request through ERCOT. Your TDSP handles
-          the transition and your power stays on the entire time. There is no interruption in service.
+          When you switch to a real REP, they submit an enrollment request through ERCOT. Your TDSP handles
+          the transition and your power stays on. When you "switch" to Exarep, a JSON object gets persisted
+          to a PostgreSQL database. Your power is unaffected because we were never involved.
         </p>
       </div>
     </div>

@@ -12,19 +12,11 @@
         <div class="d-flex justify-content-between">
           <div>
             <strong>{{ plan.planName }}</strong>
-            <p class="text-muted small mb-0">
-              @if (plan.termMonths > 0) {
-                {{ plan.termMonths }}-month term
-              } @else {
-                Month-to-month
-              }
-            </p>
+            <p class="text-muted small mb-0">{{ plan.termMonths }}-month fixed term</p>
           </div>
           <div class="text-end">
-            <span class="fw-bold" style="color: #ee0000; font-size: 1.25rem;">{{ formatRate(plan.ratePerKwh) }}&cent;/kWh</span>
-            @if (plan.baseCharge > 0) {
-              <p class="text-muted small mb-0">{{ plan.baseCharge | currency }}/mo base</p>
-            }
+            <span class="fw-bold" style="color: #ee0000; font-size: 1.25rem;">{{ formatRate(plan.energyChargePerKwh) }}&cent;/kWh</span>
+            <p class="text-muted small mb-0">{{ plan.baseCharge | currency }}/mo base</p>
           </div>
         </div>
       </div>

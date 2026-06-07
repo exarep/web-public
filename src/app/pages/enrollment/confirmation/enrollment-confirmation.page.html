@@ -5,6 +5,11 @@
     Your enrollment request has been submitted to ERCOT for processing.
     You will receive a confirmation email shortly.
   </p>
+  <p class="small fst-italic text-muted">
+    Just kidding. Nothing was submitted anywhere. ERCOT does not know we exist and frankly we would
+    like to keep it that way. But the data did flow through a Quarkus API, into PostgreSQL, and
+    onto a Kafka topic, so that is pretty cool.
+  </p>
   <div class="bg-light rounded p-3 my-4">
     <p class="text-muted small mb-1">Confirmation Number</p>
     <h4 class="mb-0">{{ confirmationNumber() }}</h4>
@@ -12,13 +17,13 @@
   <div class="text-muted small mb-4">
     <p class="mb-1"><strong>What happens next?</strong></p>
     <ul class="list-unstyled">
-      <li class="mb-1">1. ERCOT will validate your enrollment request</li>
-      <li class="mb-1">2. Your TDSP will process the service switch</li>
-      <li class="mb-1">3. You will receive a welcome packet from Exarep</li>
-      <li>4. Your service begins on the confirmed effective date</li>
+      <li class="mb-1">1. Absolutely nothing</li>
+      <li class="mb-1">2. Your lights will stay on because your actual REP is still handling that</li>
+      <li class="mb-1">3. You will not receive a welcome packet because we do not have a mailroom</li>
+      <li>4. But a Kafka consumer somewhere just processed your enrollment event, and that is the real win here</li>
     </ul>
-    <p class="mt-3">
-      You have 3 federal business days to rescind this enrollment if you change your mind.
+    <p class="mt-3 fst-italic">
+      You have infinite business days to rescind this enrollment because it was never real to begin with.
     </p>
   </div>
   <a routerLink="/" class="btn btn-primary">Return Home</a>

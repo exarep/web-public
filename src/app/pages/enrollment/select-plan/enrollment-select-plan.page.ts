@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { EnrollmentService } from '../../../services/enrollment.service';
 import { PlanService } from '../../../services/plan.service';
-import { Plan } from '../../../services/plan.model';
+import { Plan, PlanEstimate, calculateEstimates } from '../../../services/plan.model';
 
 @Component({
   selector: 'app-enrollment-select-plan',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, DecimalPipe],
   templateUrl: './enrollment-select-plan.page.html'
 })
 export class EnrollmentSelectPlanPage {
@@ -19,6 +19,10 @@ export class EnrollmentSelectPlanPage {
 
   selectPlan(plan: Plan): void {
     this.enrollmentService.selectedPlan.set(plan);
+  }
+
+  getEstimates(plan: Plan): PlanEstimate[] {
+    return calculateEstimates(plan);
   }
 
   formatRate(rate: number): string {

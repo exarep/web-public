@@ -1,12 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { PlanService } from '../../services/plan.service';
-import { Plan } from '../../services/plan.model';
+import { Plan, PlanEstimate, calculateEstimates } from '../../services/plan.model';
 
 @Component({
   selector: 'app-plans',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, DecimalPipe],
   templateUrl: './plans.page.html'
 })
 export class PlansPage implements OnInit {
@@ -26,7 +26,15 @@ export class PlansPage implements OnInit {
     this.router.navigate(['/enroll'], { queryParams: { plan: plan.planId } });
   }
 
+  getEstimates(plan: Plan): PlanEstimate[] {
+    return calculateEstimates(plan);
+  }
+
   formatRate(rate: number): string {
+    return (rate * 100).toFixed(1);
+  }
+
+  formatCentsPerKwh(rate: number): string {
     return (rate * 100).toFixed(1);
   }
 }
