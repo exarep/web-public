@@ -1,0 +1,42 @@
+<section class="hero-section text-center" style="padding: 3rem 0;">
+  <div class="container">
+    <h1 class="display-5 fw-bold mb-2">Enroll with Exarep</h1>
+    <p class="lead">Sign up for electricity service in just a few minutes.</p>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    @if (submitted()) {
+      <app-enrollment-confirmation />
+    } @else {
+      <!-- Wizard Progress -->
+      <div class="wizard-progress d-flex align-items-center justify-content-center mb-5 mx-auto" style="max-width: 600px;">
+        @for (step of steps; track step; let i = $index) {
+          @if (i > 0) {
+            <div class="step-line" [class.completed]="currentStep() > i"></div>
+          }
+          <div class="step" [class.active]="currentStep() === i + 1" [class.completed]="currentStep() > i + 1">
+            @if (currentStep() > i + 1) {
+              &#10003;
+            } @else {
+              {{ i + 1 }}
+            }
+          </div>
+        }
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          @switch (currentStep()) {
+            @case (1) { <app-enrollment-zip /> }
+            @case (2) { <app-enrollment-select-plan /> }
+            @case (3) { <app-enrollment-customer-info /> }
+            @case (4) { <app-enrollment-service-details /> }
+            @case (5) { <app-enrollment-review /> }
+          }
+        </div>
+      </div>
+    }
+  </div>
+</section>

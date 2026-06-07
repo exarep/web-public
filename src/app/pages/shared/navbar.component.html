@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" routerLink="/" style="font-family: 'Red Hat Display', sans-serif; font-weight: 900;">
+      <span style="color: #ee0000;">Exa</span>rep
+    </a>
+    <button class="navbar-toggler" type="button" (click)="isCollapsed.set(!isCollapsed())">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div [ngbCollapse]="isCollapsed()" class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/plans" routerLinkActive="active">Plans</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/about" routerLinkActive="active">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/contact" routerLinkActive="active">Contact</a>
+        </li>
+      </ul>
+      <a routerLink="/enroll" class="btn btn-primary">Sign Up Today</a>
+    </div>
+  </div>
+</nav>

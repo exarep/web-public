@@ -1,0 +1,57 @@
+<div class="card p-4">
+  <h3 class="mb-3">Your Information</h3>
+  <p class="text-muted mb-4">Tell us about yourself so we can set up your account.</p>
+
+  <div class="mb-4">
+    <label class="form-label fw-bold">I am signing up as:</label>
+    <div class="btn-group w-100" role="group">
+      <input type="radio" class="btn-check" id="individual" name="customerType" value="individual"
+        [checked]="customerType() === 'individual'" (change)="customerType.set('individual')">
+      <label class="btn btn-outline-primary" for="individual">Individual</label>
+      <input type="radio" class="btn-check" id="business" name="customerType" value="business"
+        [checked]="customerType() === 'business'" (change)="customerType.set('business')">
+      <label class="btn btn-outline-primary" for="business">Business</label>
+    </div>
+  </div>
+
+  @if (customerType() === 'individual') {
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label for="firstName" class="form-label">First Name</label>
+        <input type="text" class="form-control" id="firstName"
+          [ngModel]="firstName()" (ngModelChange)="firstName.set($event)">
+      </div>
+      <div class="col-md-6">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="lastName"
+          [ngModel]="lastName()" (ngModelChange)="lastName.set($event)">
+      </div>
+    </div>
+  } @else {
+    <div class="mb-3">
+      <label for="businessName" class="form-label">Business Name</label>
+      <input type="text" class="form-control" id="businessName"
+        [ngModel]="businessName()" (ngModelChange)="businessName.set($event)">
+    </div>
+  }
+
+  <div class="row g-3 mt-1">
+    <div class="col-md-6">
+      <label for="email" class="form-label">Email Address</label>
+      <input type="email" class="form-control" id="email"
+        [ngModel]="email()" (ngModelChange)="email.set($event)">
+    </div>
+    <div class="col-md-6">
+      <label for="phone" class="form-label">Phone Number</label>
+      <input type="tel" class="form-control" id="phone"
+        [ngModel]="phone()" (ngModelChange)="phone.set($event)">
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between mt-4">
+    <button class="btn btn-outline-secondary" (click)="onBack()">&larr; Back</button>
+    <button class="btn btn-primary btn-lg" (click)="onNext()" [disabled]="!canProceed()">
+      Continue &rarr;
+    </button>
+  </div>
+</div>

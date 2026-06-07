@@ -1,1 +1,163 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'bootstrap/scss/bootstrap';
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;900&family=Red+Hat+Text:wght@400;500;700&family=Red+Hat+Mono:wght@400;500;700&display=swap');
+
+$rh-red: #ee0000;
+$rh-red-dark: #a60000;
+$rh-red-light: #f56e6e;
+$rh-black: #151515;
+$rh-gray-90: #1f1f1f;
+$rh-gray-70: #383838;
+$rh-gray-60: #4d4d4d;
+$rh-gray-40: #a3a3a3;
+$rh-gray-20: #e0e0e0;
+$rh-gray-10: #f2f2f2;
+$rh-white: #ffffff;
+
+body {
+  font-family: 'Red Hat Text', sans-serif;
+  color: $rh-black;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Red Hat Display', sans-serif;
+  font-weight: 700;
+}
+
+h1 {
+  font-weight: 900;
+}
+
+.btn-primary {
+  background-color: $rh-red;
+  border-color: $rh-red;
+
+  &:hover, &:focus {
+    background-color: $rh-red-dark;
+    border-color: $rh-red-dark;
+  }
+}
+
+.btn-outline-primary {
+  color: $rh-red;
+  border-color: $rh-red;
+
+  &:hover, &:focus {
+    background-color: $rh-red;
+    border-color: $rh-red;
+    color: $rh-white;
+  }
+}
+
+.text-primary {
+  color: $rh-red !important;
+}
+
+.bg-primary {
+  background-color: $rh-red !important;
+}
+
+.bg-dark {
+  background-color: $rh-black !important;
+}
+
+a {
+  color: $rh-red;
+
+  &:hover {
+    color: $rh-red-dark;
+  }
+}
+
+.hero-section {
+  background: linear-gradient(135deg, $rh-black 0%, $rh-gray-70 100%);
+  color: $rh-white;
+  padding: 6rem 0;
+}
+
+.section-light {
+  background-color: $rh-gray-10;
+  padding: 4rem 0;
+}
+
+.section-dark {
+  background-color: $rh-black;
+  color: $rh-white;
+  padding: 4rem 0;
+}
+
+.card {
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.card-featured {
+  border: 2px solid $rh-red;
+}
+
+.wizard-progress {
+  .step {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-family: 'Red Hat Display', sans-serif;
+    background-color: $rh-gray-20;
+    color: $rh-gray-60;
+
+    &.active {
+      background-color: $rh-red;
+      color: $rh-white;
+    }
+
+    &.completed {
+      background-color: $rh-black;
+      color: $rh-white;
+    }
+  }
+
+  .step-line {
+    height: 2px;
+    flex: 1;
+    background-color: $rh-gray-20;
+
+    &.completed {
+      background-color: $rh-black;
+    }
+  }
+}
+
+.plan-price {
+  font-family: 'Red Hat Display', sans-serif;
+  font-weight: 900;
+  font-size: 3rem;
+  color: $rh-red;
+}
+
+.plan-unit {
+  font-size: 1rem;
+  color: $rh-gray-60;
+}
+
+footer {
+  background-color: $rh-black;
+  color: $rh-gray-40;
+  padding: 3rem 0 1.5rem;
+
+  a {
+    color: $rh-gray-20;
+    text-decoration: none;
+
+    &:hover {
+      color: $rh-white;
+    }
+  }
+}

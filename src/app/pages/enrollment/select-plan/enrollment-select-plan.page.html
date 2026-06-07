@@ -1,0 +1,55 @@
+<div class="card p-4">
+  <h3 class="mb-3">Choose your plan</h3>
+  <p class="text-muted mb-4">Select the electricity plan that best fits your needs.</p>
+
+  @if (loading()) {
+    <div class="text-center py-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  } @else {
+    <div class="row g-3">
+      @for (plan of plans(); track plan.planId) {
+        <div class="col-md-6">
+          <div
+            class="card p-3 h-100"
+            [class.border-danger]="selectedPlan()?.planId === plan.planId"
+            [class.border-2]="selectedPlan()?.planId === plan.planId"
+            style="cursor: pointer;"
+            (click)="selectPlan(plan)">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <h5 class="mb-1">{{ plan.planName }}</h5>
+                <p class="text-muted small mb-2">
+                  @if (plan.termMonths > 0) {
+                    {{ plan.termMonths }}-month term
+                  } @else {
+                    Month-to-month
+                  }
+                </p>
+              </div>
+              <div class="text-end">
+                <span class="plan-price" style="font-size: 2rem;">{{ formatRate(plan.ratePerKwh) }}&cent;</span>
+                <div class="plan-unit">per kWh</div>
+              </div>
+            </div>
+            @if (plan.baseCharge > 0) {
+              <p class="text-muted small mb-1">{{ plan.baseCharge | currency }}/mo base charge</p>
+            }
+            @if (plan.earlyTermFee > 0) {
+              <p class="text-muted small mb-0">{{ plan.earlyTermFee | currency }} early termination fee</p>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <div class="d-flex justify-content-between mt-4">
+    <button class="btn btn-outline-secondary" (click)="onBack()">&larr; Back</button>
+    <button class="btn btn-primary btn-lg" (click)="onNext()" [disabled]="!selectedPlan()">
+      Continue &rarr;
+    </button>
+  </div>
+</div>
